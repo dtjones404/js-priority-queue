@@ -38,8 +38,44 @@ test('becomes a max-heap when second argument is `false`', () => {
   expect(sortedArr).toEqual(arr.slice().sort((x, y) => y - x));
 });
 
+test('supports multiparameter sorting with default cmp function', () => {
+  const arr = [
+    [-3, 7],
+    [2, 1],
+    [-3, 11],
+    [4, 4],
+    [0, 0],
+    [-3, 5],
+    [-1, 7],
+  ];
+  const minQ = new PriorityQueue(arr);
+  const sortedArr = [];
+  while (minQ.length) sortedArr.push(minQ.pop());
+  expect(sortedArr).toEqual(
+    arr.slice().sort((x, y) => x[0] - y[0] || x[1] - y[1])
+  );
+});
+
+test('supports max-heap multiparameter sorting with default cmp function', () => {
+  const arr = [
+    [-3, 7],
+    [2, 1],
+    [-3, 11],
+    [4, 4],
+    [0, 0],
+    [-3, 5],
+    [-1, 7],
+  ];
+  const minQ = new PriorityQueue(arr, false);
+  const sortedArr = [];
+  while (minQ.length) sortedArr.push(minQ.pop());
+  expect(sortedArr).toEqual(
+    arr.slice().sort((x, y) => y[0] - x[0] || y[1] - x[1])
+  );
+});
+
 test('accepts custom comparison callback function', () => {
-  const cmp = (x, y) => x[0] - y[0] || x[1] - y[1];
+  const cmp = (x, y) => x[0] - y[0] || y[1] - x[1];
   const arr = [
     [-3, 7],
     [2, 1],

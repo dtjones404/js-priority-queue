@@ -1,9 +1,18 @@
 class PriorityQueue {
-  constructor(arr = null, minHeap = true, cmp = (x, y) => x - y) {
+  constructor(arr = null, minHeap = true, cmp = this._multiparameterSort) {
     this.q = arr === null ? [] : arr.slice();
     this.cmp = minHeap ? cmp : (x, y) => -1 * cmp(x, y);
     this._heapify();
   }
+  _multiparameterSort = function (x, y) {
+    if (!x.length) return x - y;
+
+    for (let i = 0; i < x.length; i++) {
+      if (x[i] !== y[i]) return x[i] - y[i];
+    }
+
+    return 0;
+  };
   _heapify = function () {
     for (let i = this.q.length - 1; i >= 0; i--) {
       this._bubbleDown(i);
