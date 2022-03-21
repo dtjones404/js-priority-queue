@@ -61,17 +61,19 @@ class PriorityQueue {
   };
 }
 
-const q = new PriorityQueue(
-  [
-    [-3, 7],
-    [2, 1],
-    [-3, 11],
-    [4, 4],
-  ],
-  false,
-  (x, y) => x[0] - y[0]
-);
+module.exports = PriorityQueue;
 
-const arr = [];
-while (q.length) arr.push(q.pop());
-console.log(arr);
+// const q = new PriorityQueue(
+//   [
+//     [-3, 7],
+//     [2, 1],
+//     [-3, 11],
+//     [4, 4],
+//   ],
+//   false,
+//   (x, y) => x[0] - y[0]
+// );
+
+// const arr = [];
+// while (q.length) arr.push(q.pop());
+// console.log(arr);
