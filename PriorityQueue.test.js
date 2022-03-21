@@ -37,3 +37,20 @@ test('becomes a max-heap when second argument is `false`', () => {
   while (q.length) sortedArr.push(q.pop());
   expect(sortedArr).toEqual(arr.slice().sort((x, y) => y - x));
 });
+
+test('accepts custom comparison callback function', () => {
+  const cmp = (x, y) => x[0] - y[0] || x[1] - y[1];
+  const arr = [
+    [-3, 7],
+    [2, 1],
+    [-3, 11],
+    [4, 4],
+    [0, 0],
+    [-3, 5],
+    [-1, 7],
+  ];
+  const minQ = new PriorityQueue(arr, true, cmp);
+  const sortedArr = [];
+  while (minQ.length) sortedArr.push(minQ.pop());
+  expect(sortedArr).toEqual(arr.slice().sort(cmp));
+});
