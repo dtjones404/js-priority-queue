@@ -90,3 +90,9 @@ test('accepts custom comparison callback function', () => {
   while (minQ.length) sortedArr.push(minQ.pop());
   expect(sortedArr).toEqual(arr.slice().sort(cmp));
 });
+
+test('doesn`t produce errors when sorting empty arrays', () => {
+  const arr = [[], [], []];
+  const q = new PriorityQueue(arr);
+  expect(q.q).toEqual(arr);
+});

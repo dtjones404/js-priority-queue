@@ -5,7 +5,7 @@ class PriorityQueue {
     this._heapify();
   }
   _multiparameterSort = function (x, y) {
-    if (!x.length) return x - y;
+    if (x.length === undefined) return x - y;
 
     for (let i = 0; i < x.length; i++) {
       if (x[i] !== y[i]) return x[i] - y[i];
