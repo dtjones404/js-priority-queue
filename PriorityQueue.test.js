@@ -96,3 +96,18 @@ test('doesn`t produce errors when sorting empty arrays', () => {
   const q = new PriorityQueue(arr);
   expect(q.q).toEqual(arr);
 });
+
+test('peek method returns value at top of heap', () => {
+  const arr = [7, 11, -6, 6, 4, 2];
+  const q = new PriorityQueue(arr);
+  expect(q.peek()).toEqual(-6);
+  q.pop();
+  expect(q.peek()).toEqual(2);
+});
+
+test('peek method doesn`t mutate the heap', () => {
+  const arr = [7, 11, -6, 6, 4, 2];
+  const q = new PriorityQueue(arr);
+  expect(q.peek()).toEqual(-6);
+  expect(q.peek()).toEqual(-6);
+});
