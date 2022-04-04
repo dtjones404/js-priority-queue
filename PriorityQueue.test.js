@@ -111,3 +111,9 @@ test('peek method doesn`t mutate the heap', () => {
   expect(q.peek()).toEqual(-6);
   expect(q.peek()).toEqual(-6);
 });
+
+test('provides number of items in queue through the length property', () => {
+  const arr = [7, 11, -6, 6, 4, 2];
+  const q = new PriorityQueue(arr);
+  expect(q.length).toEqual(6);
+});
