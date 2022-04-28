@@ -150,6 +150,80 @@ test('has method returns `false` if key not present in queue', () => {
   expect(q.has(9)).toEqual(false);
 });
 
+test('get method returns value of key in queue', () => {
+  const arr = [
+    [7, 4],
+    [11, 3],
+    [-6, 2],
+    [6, 6],
+    [4, -3],
+    [2, 0],
+  ];
+  const q = new PositionalPriorityQueue(arr);
+  expect(q.get(7)).toEqual(4);
+});
+
+test('get method returns `undefined` for key not in queue', () => {
+  const arr = [
+    [7, 4],
+    [11, 3],
+    [-6, 2],
+    [6, 6],
+    [4, -3],
+    [2, 0],
+  ];
+  const q = new PositionalPriorityQueue(arr);
+  expect(q.get(9)).toEqual(undefined);
+});
+
+test('updates existing node with new value if duplicate key is pushed', () => {
+  const arr = [
+    [7, 4],
+    [11, 3],
+    [-6, 2],
+    [6, 6],
+    [4, -3],
+    [2, 0],
+  ];
+  const q = new PositionalPriorityQueue(arr);
+  q.push(7, 11);
+  expect(q.get(7)).toEqual(11);
+});
+
+test('bubbles up modified values if necessary', () => {
+  const arr = [
+    [7, 4],
+    [11, 3],
+    [-6, 2],
+    [6, 6],
+    [4, -3],
+    [2, 0],
+  ];
+  const minQ = new PositionalPriorityQueue(arr);
+  minQ.push(7, -4);
+  expect(minQ.peek().key).toEqual(7);
+  const maxQ = new PositionalPriorityQueue(arr, false);
+  maxQ.push(-6, 7);
+  expect(maxQ.peek().key).toEqual(-6);
+});
+
+test('bubbles down modified values if necessary', () => {
+  const arr = [
+    [7, 4],
+    [11, 3],
+    [-6, 2],
+    [6, 6],
+    [4, -3],
+    [2, 0],
+  ];
+  const minQ = new PositionalPriorityQueue(arr);
+  minQ.push(4, 4);
+  expect(minQ.peek().key).toEqual(2);
+  const maxQ = new PositionalPriorityQueue(arr, false);
+  maxQ.push(6, -2);
+  expect(maxQ.peek().key).toEqual(7);
+});
+
 // test('supports multiparameter sorting with default cmp function', () => {
 //   const arr = [
 //     [-3, 7],

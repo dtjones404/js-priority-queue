@@ -9,6 +9,7 @@ class PositionalPriorityQueue {
   constructor(arr = null, isMinHeap = true) {
     this.keyMap = new Map();
     this.q = arr === null ? [] : this._initArray(arr);
+    this.isMinHeap = isMinHeap;
     this.cmp = isMinHeap ? (x, y) => x.val - y.val : (x, y) => y.val - x.val;
     this._heapify();
   }
@@ -65,14 +66,26 @@ class PositionalPriorityQueue {
       }
     }
   };
+  _update = function (k, v) {
+    const i = this.keyMap.get(k);
+    const oldVal = this.q[i].val;
+    this.q[i].val = v;
+    if ((this.isMinHeap && oldVal < v) || (!this.isMinHeap && oldVal > v)) {
+      console.log(this.isMinHeap, oldVal, v, 'down');
+      this._bubbleDown(i);
+    } else this._bubbleUp(i);
+  };
   get length() {
     return this.q.length;
   }
   push = function (k, v) {
-    const node = new Node(k, v);
-    this.q.push(node);
-    this.keyMap.set(k, this.q.length - 1);
-    this._bubbleUp(this.q.length - 1);
+    if (this.keyMap.get(k) !== undefined) this._update(k, v);
+    else {
+      const node = new Node(k, v);
+      this.q.push(node);
+      this.keyMap.set(k, this.q.length - 1);
+      this._bubbleUp(this.q.length - 1);
+    }
   };
   pop = function () {
     if (!this.q.length) return;
@@ -83,9 +96,14 @@ class PositionalPriorityQueue {
     if (this.q.length !== 0) this._bubbleDown(0);
     return res;
   };
-  has(k) {
+  has = function (k) {
     return this.keyMap.get(k) !== undefined;
-  }
+  };
+  get = function (k) {
+    const i = this.keyMap.get(k);
+    if (i === undefined) return;
+    return this.q[i].val;
+  };
   peek = function () {
     return this.q[0];
   };
