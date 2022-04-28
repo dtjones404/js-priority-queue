@@ -62,7 +62,6 @@ class PositionalPriorityQueue {
     const oldVal = this.q[i][1];
     this.q[i][1] = v;
     if ((this.isMinHeap && oldVal < v) || (!this.isMinHeap && oldVal > v)) {
-      console.log(this.isMinHeap, oldVal, v, 'down');
       this._bubbleDown(i);
     } else this._bubbleUp(i);
   };
