@@ -57,6 +57,8 @@ class PriorityQueue {
     this._bubbleUp(this.q.length - 1);
   };
   pop = function () {
+    if (!this.q.length) return;
+
     [this.q[0], this.q[this.q.length - 1]] = [
       this.q[this.q.length - 1],
       this.q[0],
