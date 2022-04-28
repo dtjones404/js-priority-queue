@@ -1,25 +1,16 @@
-class Node {
-  constructor(key, val) {
-    this.key = key;
-    this.val = val;
-  }
-}
-
 class PositionalPriorityQueue {
   constructor(arr = null, isMinHeap = true) {
     this.keyMap = new Map();
     this.q = arr === null ? [] : this._initArray(arr);
     this.isMinHeap = isMinHeap;
-    this.cmp = isMinHeap ? (x, y) => x.val - y.val : (x, y) => y.val - x.val;
+    this.cmp = isMinHeap ? (x, y) => x[1] - y[1] : (x, y) => y[1] - x[1];
     this._heapify();
   }
   _initArray = function (arr) {
     const res = [];
     for (let i = 0; i < arr.length; i++) {
-      const [k, v] = arr[i];
-      const node = new Node(k, v);
-      res.push(node);
-      this.keyMap.set(k, i);
+      res.push(JSON.parse(JSON.stringify(arr[i])));
+      this.keyMap.set(arr[i][0], i);
     }
     return res;
   };
@@ -31,8 +22,8 @@ class PositionalPriorityQueue {
   _swapNodes = function (i, j) {
     const node1 = this.q[i];
     const node2 = this.q[j];
-    this.keyMap.set(node1.key, j);
-    this.keyMap.set(node2.key, i);
+    this.keyMap.set(node1[0], j);
+    this.keyMap.set(node2[0], i);
     [this.q[i], this.q[j]] = [this.q[j], this.q[i]];
   };
   _bubbleUp = function (i) {
@@ -68,8 +59,8 @@ class PositionalPriorityQueue {
   };
   _update = function (k, v) {
     const i = this.keyMap.get(k);
-    const oldVal = this.q[i].val;
-    this.q[i].val = v;
+    const oldVal = this.q[i][1];
+    this.q[i][1] = v;
     if ((this.isMinHeap && oldVal < v) || (!this.isMinHeap && oldVal > v)) {
       console.log(this.isMinHeap, oldVal, v, 'down');
       this._bubbleDown(i);
@@ -81,8 +72,7 @@ class PositionalPriorityQueue {
   push = function (k, v) {
     if (this.keyMap.get(k) !== undefined) this._update(k, v);
     else {
-      const node = new Node(k, v);
-      this.q.push(node);
+      this.q.push([k, v]);
       this.keyMap.set(k, this.q.length - 1);
       this._bubbleUp(this.q.length - 1);
     }
@@ -92,7 +82,7 @@ class PositionalPriorityQueue {
 
     this._swapNodes(0, this.q.length - 1);
     const res = this.q.pop();
-    this.keyMap.delete(res.key);
+    this.keyMap.delete(res[0]);
     if (this.q.length !== 0) this._bubbleDown(0);
     return res;
   };
@@ -102,7 +92,7 @@ class PositionalPriorityQueue {
   get = function (k) {
     const i = this.keyMap.get(k);
     if (i === undefined) return;
-    return this.q[i].val;
+    return this.q[i][1];
   };
   peek = function () {
     return this.q[0];

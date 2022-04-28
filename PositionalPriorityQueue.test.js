@@ -12,6 +12,7 @@ test('does not mutate input array', () => {
   ];
   const q = new PositionalPriorityQueue(arr);
   expect(arr).not.toBe(q.q);
+  q.push(7, 3); //update value of existing key
   expect(arr).toEqual([
     [7, 4],
     [11, 3],
@@ -33,10 +34,7 @@ test('heapifies values from input array', () => {
   ];
   const q = new PositionalPriorityQueue(arr);
   const sortedArr = [];
-  while (q.length) {
-    const node = q.pop();
-    sortedArr.push([node.key, node.val]);
-  }
+  while (q.length) sortedArr.push(q.pop());
   expect(sortedArr).toEqual(arr.slice().sort((x, y) => x[1] - y[1]));
 });
 
@@ -52,10 +50,7 @@ test('heapifies pushed values', () => {
   const q = new PositionalPriorityQueue();
   arr.forEach((x) => q.push(...x));
   const sortedArr = [];
-  while (q.length) {
-    const node = q.pop();
-    sortedArr.push([node.key, node.val]);
-  }
+  while (q.length) sortedArr.push(q.pop());
   expect(sortedArr).toEqual(arr.slice().sort((x, y) => x[1] - y[1]));
 });
 
@@ -75,10 +70,7 @@ test('becomes a max-heap when second argument is `false`', () => {
   ];
   const q = new PositionalPriorityQueue(arr, false);
   const sortedArr = [];
-  while (q.length) {
-    const node = q.pop();
-    sortedArr.push([node.key, node.val]);
-  }
+  while (q.length) sortedArr.push(q.pop());
   expect(sortedArr).toEqual(arr.slice().sort((x, y) => y[1] - x[1]));
 });
 
@@ -92,9 +84,9 @@ test('peek method returns value at top of heap', () => {
     [2, 0],
   ];
   const q = new PositionalPriorityQueue(arr);
-  expect(q.peek().val).toEqual(-3);
+  expect(q.peek()[1]).toEqual(-3);
   q.pop();
-  expect(q.peek().val).toEqual(0);
+  expect(q.peek()[1]).toEqual(0);
 });
 
 test('peek method doesn`t mutate the heap', () => {
@@ -107,8 +99,8 @@ test('peek method doesn`t mutate the heap', () => {
     [2, 0],
   ];
   const q = new PositionalPriorityQueue(arr);
-  expect(q.peek().val).toEqual(-3);
-  expect(q.peek().val).toEqual(-3);
+  expect(q.peek()[1]).toEqual(-3);
+  expect(q.peek()[1]).toEqual(-3);
 });
 
 test('provides number of items in queue through the length property', () => {
@@ -201,10 +193,10 @@ test('bubbles up modified values if necessary', () => {
   ];
   const minQ = new PositionalPriorityQueue(arr);
   minQ.push(7, -4);
-  expect(minQ.peek().key).toEqual(7);
+  expect(minQ.peek()[0]).toEqual(7);
   const maxQ = new PositionalPriorityQueue(arr, false);
   maxQ.push(-6, 7);
-  expect(maxQ.peek().key).toEqual(-6);
+  expect(maxQ.peek()[0]).toEqual(-6);
 });
 
 test('bubbles down modified values if necessary', () => {
@@ -218,10 +210,12 @@ test('bubbles down modified values if necessary', () => {
   ];
   const minQ = new PositionalPriorityQueue(arr);
   minQ.push(4, 4);
-  expect(minQ.peek().key).toEqual(2);
+  expect(minQ.peek()[0]).toEqual(2);
   const maxQ = new PositionalPriorityQueue(arr, false);
+  console.log(maxQ.q);
   maxQ.push(6, -2);
-  expect(maxQ.peek().key).toEqual(7);
+  console.log(maxQ.peek());
+  expect(maxQ.peek()[0]).toEqual(7);
 });
 
 // test('supports multiparameter sorting with default cmp function', () => {
