@@ -4,7 +4,7 @@ class PriorityQueue {
     this.cmp = isMinHeap ? cmp : (x, y) => -1 * cmp(x, y);
     this._heapify();
   }
-  _multiparameterSort = function (x, y) {
+  _multiparameterSort(x, y) {
     if (x.length === undefined) return x - y;
 
     for (let i = 0; i < x.length; i++) {
@@ -12,20 +12,20 @@ class PriorityQueue {
     }
 
     return 0;
-  };
-  _heapify = function () {
+  }
+  _heapify() {
     for (let i = this.q.length - 1; i >= 0; i--) {
       this._bubbleDown(i);
     }
-  };
-  _bubbleUp = function (i) {
+  }
+  _bubbleUp(i) {
     let p = (i - 1) >> 1;
     while (i > 0 && this.cmp(this.q[i], this.q[p]) < 0) {
       [this.q[i], this.q[p]] = [this.q[p], this.q[i]];
       [i, p] = [p, (p - 1) >> 1];
     }
-  };
-  _bubbleDown = function (i) {
+  }
+  _bubbleDown(i) {
     let l, r, lesserChild;
     while (true) {
       (l = 2 * i + 1), (r = 2 * i + 2);
@@ -48,15 +48,15 @@ class PriorityQueue {
         i = r;
       }
     }
-  };
+  }
   get length() {
     return this.q.length;
   }
-  push = function (x) {
+  push(x) {
     this.q.push(x);
     this._bubbleUp(this.q.length - 1);
-  };
-  pop = function () {
+  }
+  pop() {
     if (!this.q.length) return;
 
     [this.q[0], this.q[this.q.length - 1]] = [
@@ -66,10 +66,10 @@ class PriorityQueue {
     const res = this.q.pop();
     if (this.q.length !== 0) this._bubbleDown(0);
     return res;
-  };
-  peek = function () {
+  }
+  peek() {
     return this.q[0];
-  };
+  }
 }
 
 module.exports = PriorityQueue;
