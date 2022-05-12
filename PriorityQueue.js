@@ -30,10 +30,8 @@ class PriorityQueue {
     while (true) {
       (l = 2 * i + 1), (r = 2 * i + 2);
 
-      if (l >= this.q.length) {
-        if (r >= this.q.length) break;
-        else lesserChild = this.q[r];
-      } else if (r >= this.q.length) lesserChild = this.q[l];
+      if (l >= this.q.length) break;
+      else if (r >= this.q.length) lesserChild = this.q[l];
       else
         lesserChild =
           this.cmp(this.q[l], this.q[r]) < 0 ? this.q[l] : this.q[r];

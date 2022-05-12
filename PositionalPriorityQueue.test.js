@@ -212,9 +212,7 @@ test('bubbles down modified values if necessary', () => {
   minQ.push(4, 4);
   expect(minQ.peek()[0]).toEqual(2);
   const maxQ = new PositionalPriorityQueue(arr, false);
-  console.log(maxQ.q);
   maxQ.push(6, -2);
-  console.log(maxQ.peek());
   expect(maxQ.peek()[0]).toEqual(7);
 });
 
